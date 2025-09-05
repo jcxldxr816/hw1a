@@ -33,10 +33,6 @@ Usage:
 $ python findProkPromoter.py
 """
 
-
-import csv # Standard library for reading and writing CSV files (Lib/csv.py)
-import datetime # Standard library for getting current time (Lib/datetime.py)
-import heapq # Standard library for min-heap data structure. Used to track top X scores for quick output (Lib/heapq.py)
 import sys  # Standard library for exiting program on invalid input
 
 GAP_MIN = 16
