@@ -1,38 +1,3 @@
-"""
-DNA Sequence Promoter Finder
-----------------------------
-
-Purpose:
-This program reads a DNA sequence from a text file,
-removes unnecessary characters (spaces, line breaks),
-and validates that the sequence only contains the
-four standard DNA bases: A, T, C, G.
-
-It then compares the cleaned DNA sequence to known
-promoter motifs stored in a CSV file, calculates
-similarity scores, writes the results to a new CSV
-file, and prints a quick summary of the best matches.
-
-Biological context:
-Promoters are short DNA motifs that signal where
-gene transcription should begin. Identifying these
-motifs helps us predict gene expression patterns.
-
-Program flow:
-1. Ask the user for the DNA file name.
-2. Sanitize the DNA (remove spaces/newlines).
-3. Validate the DNA (keep only A, T, C, G).
-4. Print the cleaned DNA sequence.
-5. Ask the user for a promoter motifs CSV file.
-6. Read promoter motifs from the CSV file.
-7. Compare DNA sequence to motifs and calculate scores.
-8. Save results to a timestamped CSV file.
-9. Print the highest scoring motifs in the terminal.
-
-Usage:
-$ python findProkPromoter.py
-"""#TODO update this.
-
 import sys  # Standard library for exiting program on invalid input
 
 GAP_MIN = 16
@@ -78,7 +43,7 @@ def locateFirst(input_string: str) -> int:
 
 
 def locateLast(input_string: str) -> int:
-    return input_string.find('TATAAT') # Will return index of first letter in substring, or -1
+    return input_string.find('TATATT') # Will return index of first letter in substring, or -1
 
 def measureGapAndScore(first: int, last: int):
     gap_first = first + 6
@@ -117,8 +82,6 @@ if __name__ == "__main__":
     validated_string = validateDNAString(cleaned_string)
 
     # Step 4: Print results for the user
-    # print("After sanitize:", cleaned)
-    # print("After validate:", validated)
     print("Here is the cleaned input DNA sequence:", validated_string, "\n")
 
     # Step 5: Locate -35 and -10 consensus sequences
@@ -147,4 +110,4 @@ if __name__ == "__main__":
     else:
         print(f"-10 Score: 100%")
         
-    output(first_index, last_index)
+    output(first_index, last_index) # Outputting visual representation of promoter locations
