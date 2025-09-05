@@ -7,7 +7,7 @@ Find prokaryotic promoter consensus sequences!
 `sampleFile.txt`
 3. View results!
 
-*Note: If only a single consensus sequence is located, a score will not be generated. This was a deliberate decision to avoid scoring inaccuracies due *
+*Note: If only a single consensus sequence is located, a score will not be generated. This was a deliberate decision to avoid scoring inaccuracies*
 
 ## Script
 The following script for part 'a' of this assignent is a working prototype that reads a single strand of DNA. The code validates the DNA sequence and converts any lowercase nucletoides to uppercase and omits invalid characters. It finds exact matches to the common promoter motifs of TTGACT and TATATT for -35 and -10 consensus sequences. Lastly, it reports an an output highlighting the consensus sequences and gives a match score based off of the number of nucleotides between the consensus sequences.
