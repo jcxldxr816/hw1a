@@ -135,5 +135,16 @@ if __name__ == "__main__":
         print(f"Score: {score}")
     else:
         print(f"No Score Calculated")
+
+    # This scoring will change once fuzzy matching is implemented.
+    if first_index < 0:
+        print(f"-35 Score: 0%")
+    else:
+        print(f"-35 Score: 100%")
+
+    if last_index < 0:
+        print(f"-10 Score: 0%")
+    else:
+        print(f"-10 Score: 100%")
         
     output(first_index, last_index)
