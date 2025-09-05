@@ -31,7 +31,7 @@ Program flow:
 
 Usage:
 $ python findProkPromoter.py
-"""
+"""#TODO update this.
 
 
 import csv # Standard library for reading and writing CSV files (Lib/csv.py)
@@ -81,7 +81,7 @@ def locateFirst(input_string: str) -> int:
     return input_string.find('TTGACA') # Will return index of first letter in substring, or -1
 
 
-def locateLast(input_string: str): 
+def locateLast(input_string: str) -> int:
     return input_string.find('TATAAT') # Will return index of first letter in substring, or -1
 
 def measureGapAndScore(first: int, last: int):
