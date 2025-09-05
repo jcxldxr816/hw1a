@@ -15,7 +15,7 @@ The following script for part 'a' of this assignent is a working prototype that 
 ### Input Validation
 The input DNA sequence is scanned for any whitespace or newline characters. The characters are also checked to ensure that they are either a 'T', 'A', 'C', or 'G'.
 
-### Scoring - NEEDS UPDATING
+### Scoring
 Score is calculated using a point system. The score increases for every nucleotide that the distance deviates from the expected range. 
 
 **The lower the score, the better**
