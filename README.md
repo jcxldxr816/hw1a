@@ -79,7 +79,7 @@ Consensus Sequences: XXXXXX________________XXXXXXXXXXXX_____________XXXXXX
 **Output:**
 - `output(first_index: int, last_index: int, promoter_candidates: list):` - Generate visual representation and results
 
-**Legacy Functions (backward compatibility):**
+**Helper functions for locating consensus: **
 - `locateFirst(input_string: str) -> int:` - Find first -35 consensus sequence
 - `locateLast(input_string: str) -> int:` - Find first -10 consensus sequence
 
