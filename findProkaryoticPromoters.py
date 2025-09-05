@@ -12,14 +12,18 @@ def sanitizeString(file_path: str) -> str:
     if file_path.endswith('.txt') == False:
         print("Error: Please enter a valid .txt filename")
         sys.exit()
-    with open(file_path, "r") as f:        # Open the file in read mode
-        data = f.read()                    # Read the entire file as a string
-    if not data.strip():  # if file is empty or only spaces/newlines
-        print("Error: The file is empty.")
+    try:
+        with open(file_path, "r") as f:        # Open the file in read mode
+            data = f.read()                    # Read the entire file as a string
+        if not data.strip():  # if file is empty or only spaces/newlines
+            print("Error: The file is empty.")
+            sys.exit()
+        cleaned = data.replace(" ", "")        # Remove all spaces
+        cleaned = cleaned.replace("\n", "")    # Remove all newlines
+        return cleaned
+    except FileNotFoundError:
+        print("Error: '.txt' file does not exist.")
         sys.exit()
-    cleaned = data.replace(" ", "")        # Remove all spaces
-    cleaned = cleaned.replace("\n", "")    # Remove all newlines
-    return cleaned
 
 
 def validateDNAString(dna_seq: str) -> str:
