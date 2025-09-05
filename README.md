@@ -10,7 +10,7 @@ Prokaryotic Promoter Detection Program - Find all promoter consensus sequences i
    ```
    dna.txt
    ```
-3. View comprehensive results showing all promoter candidates!
+3. View comprehensive results showing all numbered promoter candidates!
 
 ## Program Overview
 This program analyzes DNA sequences to identify potential prokaryotic promoter regions by locating conserved consensus sequences and evaluating their spatial arrangement. The code validates DNA sequences, finds **all occurrences** of promoter motifs, and scores each potential promoter based on optimal spacing criteria.
@@ -19,7 +19,8 @@ This program analyzes DNA sequences to identify potential prokaryotic promoter r
 - **Multiple motif detection**: Finds ALL occurrences of -35 and -10 consensus sequences
 - **Pairing**: Tests every possible promoter combination 
 - **Scoring**: Grades promoters from 40-100 based on spacing quality
-- **Output**: Visual representation with detailed candidate information
+- **Numbered output**: Each promoter candidate gets a clear reference number
+- **Display**: Visual representation with detailed candidate information
 - **Validation**: Handles file input errors and sequence cleaning
 
 ### Consensus Sequences
@@ -38,13 +39,25 @@ The program uses a simple gap distance scoring system:
 
 ### Sample Output
 ```
-Promoter Candidates:
-Minus 35 Position: 0, Minus 10 Position: 22, Gap Distance: 16, Score: 100
-  -35 Score: 100% (exact match)
-  -10 Score: 100% (exact match)
-Minus 35 Position: 28, Minus 10 Position: 47, Gap Distance: 13, Score: 60
-  -35 Score: 100% (exact match)
-  -10 Score: 100% (exact match)
+Found 3 promoter candidate(s):
+
+Promoter #1:
+  -35 motif (TTGACA) at position: 0
+  -10 motif (TATAAT) at position: 22
+  Gap distance: 16 bp
+  Score: 100/100
+
+Promoter #2:
+  -35 motif (TTGACA) at position: 28
+  -10 motif (TATAAT) at position: 47
+  Gap distance: 13 bp
+  Score: 60/100
+
+Promoter #3:
+  -35 motif (TTGACA) at position: 0
+  -10 motif (TATAAT) at position: 47
+  Gap distance: 41 bp
+  Score: 40/100
 
 DNA Sequence:        TTGACACCCCCCCCCCCCCCCCTATAATTTGACACCCCCCCCCCCCCTATAAT
 Consensus Sequences: XXXXXX________________XXXXXXXXXXXX_____________XXXXXX
@@ -58,7 +71,7 @@ Consensus Sequences: XXXXXX________________XXXXXXXXXXXX_____________XXXXXX
 
 **Motif Detection:**
 - `findAllMotifOccurrences(dna_sequence: str, motif: str) -> list:` - Find all occurrences of a specific motif
-- `findAllPromoterCandidates(dna_sequence: str) -> list:` - Identify all valid promoter pairs
+- `findAllPromoterCandidates(dna_sequence: str) -> list:` - Identify all valid promoter pairs with scoring
 
 **Scoring:**
 - `simple_gap_score(gap_distance: int) -> int:` - Score promoters based on spacing quality
@@ -69,6 +82,13 @@ Consensus Sequences: XXXXXX________________XXXXXXXXXXXX_____________XXXXXX
 **Legacy Functions (backward compatibility):**
 - `locateFirst(input_string: str) -> int:` - Find first -35 consensus sequence
 - `locateLast(input_string: str) -> int:` - Find first -10 consensus sequence
+
+### Results Summary
+The program successfully identifies and analyzes all potential promoter candidates in DNA sequences:
+- **Comprehensive detection**: Finds every possible -35/-10 motif combination
+- **Quality assessment**: Scores each candidate based on biological relevance
+- **Clear presentation**: Numbers each promoter for easy reference
+- **Visual mapping**: Shows motif locations with X markers in sequence alignment
 
 ### Biological Background
 Prokaryotic promoters are DNA regulatory sequences that facilitate transcription initiation by RNA polymerase. The -35 and -10 elements are recognized by sigma factors, with optimal spacing critical for promoter function and gene expression efficiency.
