@@ -39,6 +39,10 @@ import datetime # Standard library for getting current time (Lib/datetime.py)
 import heapq # Standard library for min-heap data structure. Used to track top X scores for quick output (Lib/heapq.py)
 import sys  # Standard library for exiting program on invalid input
 
+GAP_MIN = 16
+GAP_AVERAGE = 17
+GAP_MAX = 19
+
 def sanitizeString(file_path: str) -> str:
     """
     Reads a DNA sequence from a text file and removes
@@ -72,39 +76,39 @@ def validateDNAString(dna_seq: str) -> str:
 
     return cleaned
 
+# scoring: add point for every missing char out of 
+def locateFirst(input_string: str) -> int:
+    return input_string.find('TTGACA') # Will return index of first letter in substring, or -1
 
-def outputQuickOverview(data_to_sort: list, amount_to_display: int, mismatch_masterlist: list):
-    """
-    Provides a quick overview of script results in the terminal.
-    Takes as input the promoter motif CSV data, after score calculation.
-    Takes as input the desired number of results to display.
-    Takes as input the list of lists detailing character mismatch locations.
-    """
-    top_scores = []
-    for index, row in enumerate(data_to_sort):
-        score = row["Score"]
-        motif_entry = (score, index, row) # Using index as a tiebreaker value for heap comparison. heapq can't compare equal values
 
-        if len(top_scores) < amount_to_display:
-            heapq.heappush(top_scores, motif_entry)
-        else:
-            heapq.heappushpop(top_scores, motif_entry) # This pops(removes) the smallest value from the heap
-    top_scores = sorted(top_scores, key=lambda x: x[0], reverse=True) # Sorting by scores
+def locateLast(input_string: str): 
+    return input_string.find('TATAAT') # Will return index of first letter in substring, or -1
+
+def measureGapAndScore(first: int, last: int):
+    gap_first = first + 6
+    gap_last = last - 1
+    gap_distance = gap_last - gap_first
+    if gap_distance > GAP_AVERAGE:
+        score = gap_distance - GAP_MAX # Positive diff = bad
+    else:
+        score = GAP_MIN - gap_distance # positive diff = bad
+    return score
+
+def output(first_index: int, last_index: int):
+    cs_indicator_string: str = '_' * len(validated_string) # Populating indicator line with blanks
+    cs_indicator_string = list(cs_indicator_string)
+    if first_index >= 0: # Checking to make sure find() actually found substring
+        for i in range(0, 6):
+            cs_indicator_string[first_index + i] = 'X'
     
-    for score, _, row in top_scores:
-        error_indicator_string: str = '_' * len(row['PromoterSeq']) # Populating error indicator line with blanks
+    if last_index >= 0:
+        for i in range(0, 6):
+            cs_indicator_string[last_index + i] = 'X'
 
+    cs_indicator_string = ''.join(cs_indicator_string)
 
-        for error_indices_list in mismatch_masterlist:
-            if error_indices_list[0] == row['PromoterSeq'].upper(): # Checking for error data on top score strings
-                for i in range(1, len(error_indices_list)):
-                    # Replacing blank with a red X to indicate mismatch
-                    error_indicator_string = error_indicator_string[:error_indices_list[i]] + "X" + error_indicator_string[error_indices_list[i]+1:]
-
-        print(f"Promoter ID: {row['id']}\t\tScore: {score:.3f}")
-        print(f"DNA Sequence: \t\t{validated_string}")
-        print(f"Promoter Sequence: \t{row['PromoterSeq'].upper()}")
-        print(f"Mismatch View: \t\t\033[31m{error_indicator_string}\033[0m\n")
+    print(f"DNA Sequence: \t\t{validated_string}")
+    print(f"Consensus Sequences: \t\033[31m{cs_indicator_string}\033[0m\n")
 
 if __name__ == "__main__":
     # Step 1: Ask the user to type the file name
@@ -120,3 +124,20 @@ if __name__ == "__main__":
     # print("After sanitize:", cleaned)
     # print("After validate:", validated)
     print("Here is the cleaned input DNA sequence:", validated_string, "\n")
+
+    # Step 5: Locate -35 and -10 consensus sequences
+    first_index = locateFirst(validated_string)
+    last_index = locateLast(validated_string)
+    is_scoreable: bool = True
+    if (first_index < 0) or (last_index < 0):
+        print("Could not find one of the consensus sequences. Will not score.")
+        is_scoreable = False
+
+    # Step 6: Calculate Score based on gap between two CS
+    if is_scoreable:
+        score = measureGapAndScore(first_index, last_index)
+        print(f"Score: {score}")
+    else:
+        print(f"No Score Calculated")
+        
+    output(first_index, last_index)
