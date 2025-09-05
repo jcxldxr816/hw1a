@@ -239,7 +239,7 @@ def findAllPromoterCandidates(dna_sequence: str) -> list:
     # This uses a lambda function to sort by the 4th item (index 3) which is the score
     promoter_candidates.sort(key=lambda x: x[3], reverse=True)
     
-    return promoter_candidates
+    return promoter_candidates, minus35_positions, minus10_positions
 
 
 def output(first_index: int, last_index: int, promoter_candidates: list):
@@ -333,7 +333,7 @@ if __name__ == "__main__":
 
     # Step 5: Find and analyze all promoter candidates
     print("Searching for promoter candidates...")
-    promoter_candidates = findAllPromoterCandidates(validated_string)
+    promoter_candidates, minus35_positions, minus10_positions = findAllPromoterCandidates(validated_string)
     
     # Step 6: Display detailed results for each promoter found
     if promoter_candidates:
@@ -356,10 +356,19 @@ if __name__ == "__main__":
             print(f"  📏 Gap distance: {gap_distance} base pairs")
             print(f"  ⭐ Quality score: {score}/100")
             print()
-    else:
+    elif minus35_positions and minus10_positions:
         print("\n❌ No promoter candidates found in this sequence.")
         print("This DNA might not contain bacterial promoters, or they might be")
         print("too different from the standard consensus sequences we're looking for.")
+    elif minus35_positions:
+        print("\n❌ Only -35 motif (TTGACA) found in this sequence.")
+        print("This DNA might not contain a complete bacterial promoter.")
+    elif minus10_positions:
+        print("\n❌ Only -10 motif (TATAAT) found in this sequence.")
+        print("This DNA might not contain a complete bacterial promoter.")
+    else:
+        print("\n❌ No -35 or -10 motifs found in this sequence.")
+        print("This DNA might not contain bacterial promoters.")
 
     # Step 7: Legacy analysis (for backward compatibility with older code)
     first_index = locateFirst(validated_string)
